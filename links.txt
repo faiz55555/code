@@ -6,3 +6,30 @@ http://localhost/newproject/public/admin/edit_profile
 https://www.itsolutionstuff.com/post/laravel-change-password-with-current-password-validation-exampleexample.html
 http://localhost/newproject/public/admin/change_password
 
+Add product:
+$fileName = rand(111,99999).'.'.$extension;
+            
+$large_image_path = 'images/backend_images/product'.'/'.$fileName;  
+$small_image_path = 'images/backend_images/product/thumb'.'/'.$fileName;  
+Image::make($image_tmp)->save($large_image_path);
+Image::make($image_tmp)->resize(300, 300)->save($small_image_path);
+
+//$image->move(public_path('images/backend_images/product'), $fileName);
+
+
+Edit product:
+//$image->move(public_path('images/backend_images/product'), $fileName);
+$large_image_path = 'images/backend_images/product'.'/'.$fileName;  
+Image::make($image_tmp)->save($large_image_path);
+$small_image_path = 'images/backend_images/product/thumb'.'/'.$fileName;
+Image::make($image_tmp)->resize(300, 300)->save($small_image_path);
+
+
+
+//delete image file from upload folder which is send from edit view throught hidden field with the name current_image.
+$file       = $data['current_image'];
+$filename   = public_path('images/backend_images/product').'/'.$file;
+LaraFile::delete($filename);
+
+$thumbname   = public_path('images/backend_images/product/thumb').'/'.$file;
+LaraFile::delete($thumbname);
