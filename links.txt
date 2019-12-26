@@ -33,3 +33,49 @@ LaraFile::delete($filename);
 
 $thumbname   = public_path('images/backend_images/product/thumb').'/'.$file;
 LaraFile::delete($thumbname);
+
+
+
+
+    //Change Status
+    $(document).on('click', '.toggle-class', function(e) {
+    e.preventDefault();
+    var reload_datatable = $("#datatable").dataTable({bRetrieve: true}); 
+
+    $('.changeStatus').hide();
+    var status      = $(this).data('status');
+    if(status==0){
+      var adminStatus = 1;
+    }else{
+      var adminStatus = 0;
+    }    
+    var user_id = $(this).data('id'); 
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: baseURL+'/admin/changeStatus',
+        data: {
+            'status': adminStatus,
+            'user_id': user_id
+        },
+        success: function(data){
+          //console.log(data.success)
+          $('.changeStatus').show().html(data.success);
+          reload_datatable.fnDraw();    }
+    });
+    });
+    
+ public function changeStatus(Request $request)
+    {
+       //dd($request);
+        $user = Admin::find($request->user_id);
+        $user->status = $request->status;
+        $user->save();
+        return response()->json(['success'=>'Status change successfully.']);
+        //return redirect('admin/users')->with('flash_message_success', 'Status updated successfully!');        
+    }
+    
+                <div style="display:none;" class="changeStatus alert alert-success alert-block">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>{!! session('flash_message_success') !!}</strong>
+                </div>    
