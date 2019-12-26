@@ -5,6 +5,4 @@ http://localhost/newproject/public/admin/edit_profile
 
 https://www.itsolutionstuff.com/post/laravel-change-password-with-current-password-validation-exampleexample.html
 http://localhost/newproject/public/admin/change_password
-test
-
 
